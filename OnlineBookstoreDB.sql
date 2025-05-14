@@ -2,66 +2,68 @@ CREATE DATABASE OnlineBookstoreDB;
 
 CREATE TABLE authors (
    AuthorID int AUTO_INCREMENT PRIMARY KEY,
-   AuthorFirstName varchar(255) DEFAULT NULL,
-   AuthorLastName varchar(255) DEFAULT NULL
+   AuthorFirstName varchar(255),
+   AuthorLastName varchar(255)
 );
 
 CREATE TABLE bookauthors (
-  BookID int AUTO_INCREMENT PRIMARY KEY,
-  AuthorID int PRIMARY KEY,
+  BookID int,
+  AuthorID int,
+  PRIMARY KEY (BookID, AuthorID),
   FOREIGN KEY (BookID) REFERENCES books(BookID),
   FOREIGN KEY (AuthorID) REFERENCES authors(AuthorID)
 );
 
 CREATE TABLE books (
   BookID int AUTO_INCREMENT PRIMARY KEY,
-  ISBN varchar(255) DEFAULT NULL,
-  Title varchar(255) DEFAULT NULL,
-  Binding enum('hardcover','paperback') DEFAULT NULL,
-  ListPrice double DEFAULT NULL,
-  PublishDate datetime DEFAULT NULL,
-  PublisherID int DEFAULT NULL,
-  SectionID int DEFAULT NULL,
+  ISBN varchar(255),
+  Title varchar(255),
+  Binding enum('hardcover','paperback'),
+  ListPrice double,
+  PublishDate datetime,
+  PublisherID int,
+  SectionID int,
   FOREIGN KEY (PublisherID) REFERENCES publishers(PublisherID),
   FOREIGN KEY (SectionID) REFERENCES sections(SectionID)
 );
 
 CREATE TABLE customers (
   CustomerID int AUTO_INCREMENT PRIMARY KEY,
-  CustomerFirstName varchar(255) DEFAULT NULL,
-  CustomerLastName varchar(255) DEFAULT NULL,
-  ShippingAddress varchar(255) DEFAULT NULL,
-  BillingAddress varchar(255) DEFAULT NULL
+  CustomerFirstName varchar(255),
+  CustomerLastName varchar(255),
+  ShippingAddress varchar(255),
+  BillingAddress varchar(255)
 );
 
 CREATE TABLE inventory (
   InventoryID int AUTO_INCREMENT PRIMARY KEY,
-  BookID int DEFAULT NULL,
-  StockQuantity int DEFAULT NULL,
-  VendorID int DEFAULT NULL,
-  DateReceived datetime DEFAULT NULL,
-  LifetimeSales int DEFAULT NULL,
+  BookID int,
+  StockQuantity int,
+  VendorID int,
+  DateReceived datetime,
+  LifetimeSales int,
   FOREIGN KEY (BookID) REFERENCES books(BookID),
   FOREIGN KEY (VendorID) REFERENCES vendors(VendorID)
 );
 
 CREATE TABLE invoiceitems (
-  InvoiceID int AUTO_INCREMENT PRIMARY KEY,
-  BookID int PRIMARY KEY,
+  InvoiceID int,
+  BookID int,
+  PRIMARY KEY (InvoiceID, BookID),
   FOREIGN KEY (InvoiceID) REFERENCES invoices(InvoiceID),
   FOREIGN KEY (BookID) REFERENCES books(BookID)
 );
 
 CREATE TABLE invoices (
   InvoiceID int AUTO_INCREMENT PRIMARY KEY,
-  OrderNumber int DEFAULT NULL,
-  CustomerID int DEFAULT NULL,
+  OrderNumber int,
+  CustomerID int,
   FOREIGN KEY (CustomerID) REFERENCES customers(CustomerID)
 );
 
 CREATE TABLE publishers (
   PublisherID int AUTO_INCREMENT PRIMARY KEY,
-  PublisherName varchar(255) DEFAULT NULL
+  PublisherName varchar(255)
 );
 
 CREATE TABLE sections (
@@ -71,5 +73,5 @@ CREATE TABLE sections (
 
 CREATE TABLE vendors (
   VendorID int AUTO_INCREMENT PRIMARY KEY,
-  VendorName varchar(255) DEFAULT NULL
+  VendorName varchar(255)
 );
